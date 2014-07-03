@@ -20,7 +20,7 @@ const unichar ISO8601DefaultTimeSeparatorCharacter = DEFAULT_TIME_SEPARATOR;
 #define ISO_CALENDAR_DATE_FORMAT @"yyyy-MM-dd"
 //#define ISO_WEEK_DATE_FORMAT @"YYYY-'W'ww-ee" //Doesn't actually work because NSDateComponents counts the weekday starting at 1.
 #define ISO_ORDINAL_DATE_FORMAT @"yyyy-DDD"
-#define ISO_TIME_FORMAT @"HH:mm:ss"
+#define ISO_TIME_FORMAT(fraction_of_second) (fraction_of_second ? @"HH:mm:ss.SSS" : @"HH:mm:ss")
 //printf formats.
 #define ISO_TIMEZONE_UTC_FORMAT @"Z"
 #define ISO_TIMEZONE_OFFSET_FORMAT_NO_SEPARATOR @"%+.2d%.2d"
@@ -94,6 +94,7 @@ bool ISO8601DateFormatter_GlobalCachesAreWarm(void) {
 		format = ISO8601DateFormatCalendar;
 		timeSeparator = ISO8601DefaultTimeSeparatorCharacter;
 		includeTime = NO;
+        includeFractionOfSecond = NO;
 		parsesStrictly = NO;
 
 #if TARGET_OS_IPHONE
@@ -716,6 +717,7 @@ static BOOL is_leap_year(NSUInteger year);
 
 @synthesize format;
 @synthesize includeTime;
+@synthesize includeFractionOfSecond;
 @synthesize timeSeparator;
 @synthesize timeZoneSeparator;
 
@@ -753,7 +755,7 @@ static BOOL is_leap_year(NSUInteger year);
 
 - (NSString *) stringFromDate:(NSDate *)date formatString:(NSString *)dateFormat timeZone:(NSTimeZone *)timeZone {
 	if (includeTime)
-		dateFormat = [dateFormat stringByAppendingFormat:@"'T'%@", [self replaceColonsInString:ISO_TIME_FORMAT withTimeSeparator:self.timeSeparator]];
+		dateFormat = [dateFormat stringByAppendingFormat:@"'T'%@", [self replaceColonsInString:ISO_TIME_FORMAT(includeFractionOfSecond) withTimeSeparator:self.timeSeparator]];
 
 	if ([dateFormat isEqualToString:lastUsedFormatString] == NO) {
 		[unparsingFormatter release];
@@ -876,7 +878,7 @@ static BOOL is_leap_year(NSUInteger year);
 		NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
 		unichar timeSep = self.timeSeparator;
 		if (!timeSep) timeSep = ISO8601DefaultTimeSeparatorCharacter;
-		formatter.dateFormat = [self replaceColonsInString:ISO_TIME_FORMAT withTimeSeparator:timeSep];
+		formatter.dateFormat = [self replaceColonsInString:ISO_TIME_FORMAT(includeFractionOfSecond) withTimeSeparator:timeSep];
 		formatter.locale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease];
 		formatter.timeZone = timeZone;
 

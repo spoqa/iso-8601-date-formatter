@@ -49,6 +49,7 @@ extern const unichar ISO8601DefaultTimeSeparatorCharacter;
 	unichar timeSeparator;
     unichar timeZoneSeparator;
 	BOOL includeTime;
+    BOOL includeFractionOfSecond;
 	BOOL parsesStrictly;
 }
 
@@ -169,6 +170,16 @@ extern const unichar ISO8601DefaultTimeSeparatorCharacter;
  *	@sa	timeZoneSeparator
  */
 @property BOOL includeTime;
+/*!
+ *	@brief	Whether strings should include fraction of second.
+ *
+ *	@details	If `NO`, strings include only the seconds (if includeTime is set), nothing after it.
+ *
+ *	@sa	includeTime
+ *  @sa timeSeparator
+ *	@sa	timeZoneSeparator
+ */
+@property BOOL includeFractionOfSecond;
 /*!
  *	@brief	The character to use to separate components of the time of day.
  *
