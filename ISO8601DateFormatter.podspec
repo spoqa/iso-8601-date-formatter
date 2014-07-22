@@ -7,5 +7,5 @@ Pod::Spec.new do |s|
 
   s.source_files = 'ISO8601DateFormatter.{h,m}'
   s.public_header_files = 'ISO8601DateFormatter.h'
-  s.requires_arc = true
+  s.requires_arc = false
 end
