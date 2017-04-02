@@ -2,9 +2,9 @@ Pod::Spec.new do |s|
   s.name         = 'ISO8601DateFormatter'
   s.version      = '0.7.1'
 
-  s.summary  = 'A Cocoa NSFormatter subclass to convert dates to and from ISO-8601-formatted strings. Supports calendar, week, and ordinal formats.'
+  s.authors   = { 'Peter Hosey' => 'https://twitter.com/boredzo' }
   s.homepage = 'https://github.com/habicm/iso-8601-date-formatter'
-  s.author   = { 'Peter Hosey' => 'https://twitter.com/boredzo' }
+  s.summary  = 'A Cocoa NSFormatter subclass to convert dates to and from ISO-8601-formatted strings. Supports calendar, week, and ordinal formats.'
 
   s.source       = { :git => 'https://github.com/boredzo/iso-8601-date-formatter' }
   s.platform     = :ios, '7.0'
